@@ -1,0 +1,4 @@
+.post [contenteditable] {
+    border: 3px dashed #ccc;
+    outline: 0;
+}
