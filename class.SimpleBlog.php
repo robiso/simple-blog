@@ -142,9 +142,10 @@ HTML;
             switch ($this->path[0]) {
                 case '':
                     // Start rendering homepage
+                    $args[0] = "";
 
                     if($this->Wcms->loggedIn) {
-                        $args[0] = "<div class='pull-right'><a href='#' onclick='blog.new(); return false;'>+ Add new post</a></div>";
+                        $args[0] .= "<div class='pull-right'><a href='#' onclick='blog.new(); return false;'>+ Add new post</a></div>";
                     }
 
                     $args[0] .= <<<HTML
@@ -172,16 +173,17 @@ HTML;
                         $post = $this->db->posts->{$this->path};
                         $date = date($this->dateFormat, $post->date);
 
-                        $edit = ""; $description = "";
+                        $edit = ""; $description = ""; $delete = "";
                         if($this->Wcms->loggedIn) {
                             $edit = ' contenteditable="true" onblur="blog.save(this)"';
                             $description = "<div class='description' $edit>{$post->description}</div><br>";
+                            $delete = " &nbsp; &bull; &nbsp; <a href='../plugins/simpleblog/delete.php?page={$this->path}'>Delete</a>";
                         }
 
                         $args[0] = <<<HTML
                         <div class="post">
                             <h1 class="title" $edit>{$post->title}</h1>
-                            <p class="meta">Written by {$this->db->author} &nbsp; &bull; &nbsp; Posted on {$date}</p>
+                            <p class="meta">Written by {$this->db->author} &nbsp; &bull; &nbsp; Posted on {$date}{$delete}</p>
                             $description
                             <div class="body" $edit>
                                 {$post->body}
