@@ -21,7 +21,7 @@ if(empty($slug)) die("Please specify all the fields");
 $posts = (array)$SimpleBlog->get("posts");
 
 $posts[$slug] = [
-    "title" => $_POST["page"],
+    "title" => htmlspecialchars($_POST['page'], ENT_QUOTES),
     "description" => "This is a new blog post.",
     "date" => time(),
     "body" => "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quidem nesciunt voluptas tempore vero, porro reprehenderit cum provident eum sapiente voluptate veritatis, iure libero, fugiat iste soluta repellendus aliquid impedit alias."

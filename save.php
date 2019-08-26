@@ -14,8 +14,8 @@ if(!$Wcms->loggedIn) die("Please login first.");
 
 if(!isset($_POST["key"], $_POST["value"], $_POST["page"])) die("Please specify key and value");
 
-$key = preg_replace("#[^a-z]#", "", $_POST["key"]);
-$page = preg_replace("#[^a-z0-9-]#", "", $_POST["page"]);
+$key = $Wcms->slugify($_POST["key"]);
+$page = $Wcms->slugify($_POST["page"]);
 $value = $_POST["value"];
 
 if(empty($key) || empty($page) || empty($value)) die("Please specify all the fields");

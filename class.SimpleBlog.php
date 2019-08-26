@@ -61,6 +61,7 @@ class SimpleBlog {
     public function set() : void {
 		$numArgs = func_num_args();
 		$args = func_get_args();
+
 		switch ($numArgs) {
 			case 2:
 				$this->db->{$args[0]} = $args[1];
@@ -120,7 +121,7 @@ class SimpleBlog {
     }
 
     public function jsListener(array $args) : array {
-        $args[0] .= "<script src='{$this->Wcms->url('plugins/simpleblog/js/blog.js')}'></script>";
+        $args[0] .= "<script src='{$this->Wcms->url('plugins/simpleblog/js/blog.js?v=67')}'></script>";
         return $args;
     }
 
@@ -142,10 +143,9 @@ HTML;
             switch ($this->path[0]) {
                 case '':
                     // Start rendering homepage
-                    $args[0] = "";
 
                     if($this->Wcms->loggedIn) {
-                        $args[0] .= "<div class='pull-right'><a href='#' onclick='blog.new(); return false;'>+ Add new post</a></div>";
+                        $args[0] = "<div class='pull-right'><a href='#' onclick='blog.new(); return false;'>+ Add new post</a></div>";
                     }
 
                     $args[0] .= <<<HTML
@@ -173,17 +173,16 @@ HTML;
                         $post = $this->db->posts->{$this->path};
                         $date = date($this->dateFormat, $post->date);
 
-                        $edit = ""; $description = ""; $delete = "";
+                        $edit = ""; $description = "";
                         if($this->Wcms->loggedIn) {
                             $edit = ' contenteditable="true" onblur="blog.save(this)"';
                             $description = "<div class='description' $edit>{$post->description}</div><br>";
-                            $delete = " &nbsp; &bull; &nbsp; <a href='../plugins/simpleblog/delete.php?page={$this->path}'>Delete</a>";
                         }
 
                         $args[0] = <<<HTML
                         <div class="post">
                             <h1 class="title" $edit>{$post->title}</h1>
-                            <p class="meta">Written by {$this->db->author} &nbsp; &bull; &nbsp; Posted on {$date}{$delete}</p>
+                            <p class="meta">Written by {$this->db->author} &nbsp; &bull; &nbsp; Posted on {$date}</p>
                             $description
                             <div class="body" $edit>
                                 {$post->body}

@@ -1,0 +1,24 @@
+{
+    "title": "Blog",
+    "author": "Admin",
+    "posts": {
+        "hello-world": {
+            "title": "Hello, World! Ẑ",
+            "description": "This is a hello world blog post.",
+            "date": 1566839886,
+            "body": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quidem nesciunt voluptas tempore vero, porro reprehenderit cum provident eum sapiente voluptate veritatis, iure libero, fugiat iste soluta repellendus aliquid impedit alias."
+        },
+        "nice": {
+            "title": "Nice! Ẑ",
+            "description": "This is a new blog post. Ẑ",
+            "date": 1566839909,
+            "body": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quidem nesciunt voluptas tempore vero, porro reprehenderit cum provident eum sapiente voluptate veritatis, iure libero, fugiat iste soluta repellendus aliquid impedit alias."
+        },
+        "nice-z-ẑ": {
+            "title": "Nice Z^Ẑ",
+            "description": "This is a new blog post.",
+            "date": 1566839969,
+            "body": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quidem nesciunt voluptas tempore vero, porro reprehenderit cum provident eum sapiente voluptate veritatis, iure libero, fugiat iste soluta repellendus aliquid impedit alias."
+        }
+    }
+}
