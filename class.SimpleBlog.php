@@ -126,7 +126,7 @@ class SimpleBlog {
     }
 
     public function jsListener(array $args) : array {
-        $args[0] .= "<script src='{$this->Wcms->url('plugins/simpleblog/js/blog.js?v=67')}'></script>";
+        $args[0] .= "<script src='{$this->Wcms->url('plugins/simpleblog/js/blog.js')}'></script>";
         return $args;
     }
 
@@ -183,7 +183,7 @@ HTML;
                         if($this->Wcms->loggedIn) {
                             $edit = ' contenteditable="true" onblur="blog.save(this)"';
                             $description = "<div class='description' $edit>{$post->description}</div><br>";
-                            $delete = " &nbsp; &bull; &nbsp; <a href='../plugins/simpleblog/delete.php?page={$this->path}'>Delete</a>";
+                            $delete = " &nbsp; &bull; &nbsp; <a href='{$this->Wcms->url('plugins/simpleblog/delete.php')}?page={$this->path}&token={$this->Wcms->getToken()}' onclick='return confirm(\"Are you sure you want to delete this post?\")'>Delete</a>";
                         }
 
                         $args[0] = <<<HTML
