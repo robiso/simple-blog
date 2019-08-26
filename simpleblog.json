@@ -1,0 +1,18 @@
+{
+    "title": "Blog",
+    "author": "Admin",
+    "posts": {
+        "click": {
+            "title": "* click *",
+            "description": "Nice",
+            "date": 1566841253,
+            "body": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quidem nesciunt voluptas tempore vero, porro reprehenderit cum provident eum sapiente voluptate veritatis, iure libero, fugiat iste soluta repellendus aliquid impedit alias."
+        },
+        "nice": {
+            "title": "Nice&nbsp;",
+            "description": "This is a new blog post.&nbsp;",
+            "date": 1566841468,
+            "body": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quidem nesciunt voluptas tempore vero, porro reprehenderit cum provident eum sapiente voluptate veritatis, iure libero, fugiat iste soluta repellendus aliquid impedit alias."
+        }
+    }
+}

@@ -10,7 +10,10 @@ $Wcms->init();
 $SimpleBlog = new SimpleBlog(false);
 $SimpleBlog->init();
 
-if(!$Wcms->loggedIn) die("Please login first.");
+if(!$Wcms->loggedIn
+    && $_SESSION['token'] === $_POST['token']
+    && $this->hashVerify($_POST['token']))
+    die("Please login first.");
 
 if(!isset($_POST["page"])) die("Please specify key and value");
 
