@@ -103,6 +103,11 @@ class SimpleBlog {
         if(array_shift($path) == $this->slug) {
             $this->active = true;
             $this->path = $path ? implode("-", $path) : [""];
+
+            // Remove the 404 status code. This way search engines will be able to index this page.
+            // This works since there has not been any content send back to the server, it it still
+            // in the $args array. Because of this we can still edit (overwrite) the headers here.
+            header("HTTP/1.0 200 OK");
         }
 
         if($this->active) {
@@ -194,6 +199,7 @@ HTML;
                     } else {
                         // Display 404 (that isn't editable by admins)
                         $args[0] = $this->Wcms->get('pages', '404')->content;
+                        header("HTTP/1.0 404 Not Found");
                     }
                     break;
             }
