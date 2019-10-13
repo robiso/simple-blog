@@ -1,4 +1,4 @@
-# Simple Blog plugin
+# Simple Blog plugin (author: https://github.com/StephanStanisic/)
 This is a simple blog plugin for WonderCMS 3.0.0
 
 ![](https://i.imgur.com/YT2fvUz.jpg)
