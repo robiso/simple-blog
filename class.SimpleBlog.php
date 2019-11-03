@@ -107,7 +107,10 @@ class SimpleBlog {
             // Remove the 404 status code. This way search engines will be able to index this page.
             // This works since there has not been any content send back to the server, it it still
             // in the $args array. Because of this we can still edit (overwrite) the headers here.
+            // $Wcms->currentPageExists = true;
+
             header("HTTP/1.0 200 OK");
+
         }
 
         if($this->active) {
@@ -165,9 +168,9 @@ HTML;
                         $args[0] .= <<<HTML
                         <div class="post card">
                             <h3>{$post->title}</h3>
-                            <p class="meta">Written by {$this->db->author} &nbsp; &bull; &nbsp; Posted on {$date}</p>
+                            <p class="meta">Written by {$this->db->author} <span class="pull-right">{$date}</span></p>
                             <p class="description">{$post->description}</p>
-                            <a href="{$this->Wcms->url($this->slug . '/' . $slug)}">Read more</a>
+                            <a href="{$this->Wcms->url($this->slug . '/' . $slug)}" class="text-right">Read more</a>
                         </div>
 HTML;
                     }
