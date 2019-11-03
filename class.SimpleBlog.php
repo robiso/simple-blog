@@ -12,7 +12,7 @@ class SimpleBlog {
 
     private $dbPath = __DIR__ . "/simpleblog.json";
 
-    private $dateFormat = "l j F Y H:i";
+    private $dateFormat = "d F Y";
 
     private $path = [""];
 
@@ -168,7 +168,7 @@ HTML;
                         $args[0] .= <<<HTML
                         <div class="post card">
                             <h3>{$post->title}</h3>
-                            <p class="meta">Written by {$this->db->author} <span class="pull-right">{$date}</span></p>
+                            <p class="meta"><small>Written by {$this->db->author} <span class="pull-right">{$date}</span></small></p>
                             <p class="description">{$post->description}</p>
                             <a href="{$this->Wcms->url($this->slug . '/' . $slug)}" class="text-right">Read more</a>
                         </div>
@@ -192,7 +192,7 @@ HTML;
                         $args[0] = <<<HTML
                         <div class="post">
                             <h1 class="title" $edit>{$post->title}</h1>
-                            <p class="meta">Written by {$this->db->author} &nbsp; &bull; &nbsp; Posted on {$date}{$delete}</p>
+                            <p class="meta text-right"><small>Written by {$this->db->author} on {$date}</small></p>
                             $description
                             <div class="body" $edit>
                                 {$post->body}
