@@ -183,7 +183,7 @@ HTML;
                         if($this->Wcms->loggedIn) {
                             $edit = ' contenteditable="true" onblur="blog.save(this)"';
                             $description = "<div class='description' $edit>{$post->description}</div><br>";
-                            $delete = " &nbsp; &bull; &nbsp; <a href='{$this->Wcms->url('plugins/simpleblog/delete.php')}?page={$this->path}&token={$this->Wcms->getToken()}' onclick='return confirm(\"Are you sure you want to delete this post?\")'>Delete</a>";
+                            $delete = " &nbsp; &bull; &nbsp; <a href='{$this->Wcms->url('plugins/simple-blog/delete.php')}?page={$this->path}&token={$this->Wcms->getToken()}' onclick='return confirm(\"Are you sure you want to delete this post?\")'>Delete</a>";
                         }
 
                         $args[0] = <<<HTML
