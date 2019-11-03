@@ -121,12 +121,12 @@ class SimpleBlog {
             }
         }
 
-        $args[0] .= "<link rel='stylesheet' href='{$this->Wcms->url('plugins/simpleblog/css/blog.css')}'>";
+        $args[0] .= "<link rel='stylesheet' href='{$this->Wcms->url('plugins/simple-blog/css/blog.css')}'>";
         return $args;
     }
 
     public function jsListener(array $args) : array {
-        $args[0] .= "<script src='{$this->Wcms->url('plugins/simpleblog/js/blog.js')}'></script>";
+        $args[0] .= "<script src='{$this->Wcms->url('plugins/simple-blog/js/blog.js')}'></script>";
         return $args;
     }
 
