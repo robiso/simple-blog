@@ -1,7 +1,9 @@
 function Blog() {
+    this.active = window.location.pathname.split("/")[1] == "blog";
+
     this.assertSummernote = function() {
         var scripts = [].slice.call(document.getElementsByTagName("script"));
-        if(scripts.filter(e => e.src.indexOf("summernote") >= 0).length > 0) {
+        if(scripts.filter(e => e.src.indexOf("summernote") >= 0).length > 0 && blog.active) {
             console.log("Found summernote editors!");
             // summernote.focus
             $('.editable').on('summernote.blur', function(element) {
