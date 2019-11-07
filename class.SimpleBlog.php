@@ -205,21 +205,33 @@ HTML;
                         $description = "";
                         $delete = "";
                         if ($this->Wcms->loggedIn) {
-                            $edit = ' contenteditable="true" onblur="blog.save(this)"';
-                            $description = "<div class='description' $edit>{$post->description}</div><br>";
-                            $delete = " &nbsp; &bull; &nbsp; <a href='{$this->Wcms->url('plugins/simple-blog/delete.php')}?page={$this->path}&token={$this->Wcms->getToken()}' onclick='return confirm(\"Are you sure you want to delete this post?\")'>Delete</a>";
-                        }
-
-                        $args[0] = <<<HTML
-                        <div class="post">
-                            <h1 class="title" $edit>{$post->title}</h1>
-                            <p class="meta">Written by {$this->db->author} &nbsp; &bull; &nbsp; Posted on {$date}{$delete}</p>
-                            $description
-                            <div class="body" $edit>
-                                {$post->body}
+                            $args[0] = <<<HTML
+                            <div class="post">
+                                <h6>Title:</h6>
+                                <div class="title editable" onblur="blog.save(this)" contenteditable><h1 style='margin-top:0;'>{$post->title}</h1></div>
+                                <p class="meta">Written by {$this->db->author} on {$date} &nbsp; &bull; &nbsp; <a href='{$this->Wcms->url('plugins/simple-blog/delete.php')}?page={$this->path}&token={$this->Wcms->getToken()}' onclick='return confirm(\"Are you sure you want to delete this post?\")'>Delete</a></p>
+                                <hr>
+                                <h6>Description:</h6>
+                                <div class='description editable' onblur="blog.save(this)" contenteditable>{$post->description}</div>
+                                <hr>
+                                <h6>Content:</h6>
+                                <div class="body editable" onblur="blog.save(this)" contenteditable>
+                                    {$post->body}
+                                </div>
                             </div>
-                        </div>
 HTML;
+                        } else {
+
+                            $args[0] = <<<HTML
+                            <div class="post">
+                                <h1 class="title">{$post->title}</h1>
+                                <p class="meta">Written by {$this->db->author} on {$date}</p>
+                                <div class="body">
+                                    {$post->body}
+                                </div>
+                            </div>
+HTML;
+                        }
                     } else {
                         // Display 404 (that isn't editable by admins)
                         $args[0] = $this->Wcms->get('pages', '404')->content;
