@@ -37,13 +37,12 @@ class SimpleBlog
         if (!file_exists($this->dbPath)) {
             file_put_contents($this->dbPath, json_encode([
                 "title" => "Blog",
-                "author" => "Admin",
                 "posts" => [
                     "hello-world" => [
                         "title" => "Hello, World!",
-                        "description" => "This is a hello world blog post.",
+                        "description" => "This blog post and the first paragraph is the short snippet.",
                         "date" => time(),
-                        "body" => "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quidem nesciunt voluptas tempore vero, porro reprehenderit cum provident eum sapiente voluptate veritatis, iure libero, fugiat iste soluta repellendus aliquid impedit alias."
+                        "body" => "This is the full blog post content. Here's some more example text. Consectetur adipisicing elit. Quidem nesciunt voluptas tempore vero, porro reprehenderit cum provident eum sapiente voluptate veritatis, iure libero, fugiat iste soluta repellendus aliquid impedit alias."
                     ]
                 ]
             ], JSON_FORCE_OBJECT | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
@@ -168,7 +167,7 @@ HTML;
                     $args[0] = "";
 
                     if ($this->Wcms->loggedIn) {
-                        $args[0] = "<div class='pull-right'><a href='#' onclick='blog.new(); return false;'>+ Add new post</a></div>";
+                        $args[0] = "<div class='text-right'><a href='#' class='btn btn-info' onclick='blog.new(); return false;'><span class='glyphicon glyphicon-plus-sign'></span> Create new post</a></div>";
                     }
 
                     $args[0] .= <<<HTML
@@ -184,8 +183,7 @@ HTML;
                             <h3>{$post->title}</h3>
                             <div class="meta">
                                 <div class="row">
-                                    <div class="col-sm-6 text-left"><small>Written by {$this->db->author}</small></div>
-                                    <div class="col-sm-6 text-right"><small>{$date}</small></div>
+                                    <div class="col-sm-12 text-right"><small>{$date}</small></div>
                                 </div>
                             </div>
                             <p class="description">{$post->description}</p>
@@ -211,17 +209,22 @@ HTML;
                         }
 
                         $args[0] = <<<HTML
+
                         <div class="post">
                             <h1 class="title" $edit>{$post->title}</h1>
-                            <p class="meta">Written by {$this->db->author} &nbsp; &bull; &nbsp; Posted on {$date}{$delete}</p>
+                            <p class="meta">{$date}{$delete}</p>
                             $description
-                            <div class="body" $edit>
+                            <div class="body text-justify" $edit>
                                 {$post->body}
                             </div>
                         </div>
+                        <br /><br />
+                        <div class="text-left">
+                            <a href="./" class="btn btn-default"><span class="glyphicon glyphicon-chevron-left small"></span> Back to all posts</a>
+                        </div>
 HTML;
                     } else {
-                        // Display 404 (that isn't editable by admins)
+                        // Display 404 (unless it's admin, then it's never a 404)
                         $args[0] = $this->Wcms->get('pages', '404')->content;
 
                         header("HTTP/1.0 404 Not Found");
