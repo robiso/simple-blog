@@ -4,8 +4,8 @@
 }
 
 .post.card {
-    width: calc(50% - 2em);
-    float: left;
+    width: calc(47% - 2em);
+    display: inline-block;
     text-align: left;
     margin: 1em;
     /* padding: 1.25em; */
@@ -42,4 +42,16 @@
  .post.card a {
     padding: 0 1.25em 1.25em 1.25em;
     display: block;
+}
+
+@media (max-width: 576px) {
+    .post.card {
+        width: 97%;
+        display: inline-block;
+        text-align: left;
+        margin: 1em;
+        /* padding: 1.25em; */
+        box-shadow: -1px -1px 6px 0 rgba(0,0,0,.1);
+        border-radius: .25rem;
+    }
 }
