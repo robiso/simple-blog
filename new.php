@@ -25,9 +25,9 @@ $posts = (array)$SimpleBlog->get("posts");
 
 $posts[$slug] = [
     "title" => htmlspecialchars($_POST['page'], ENT_QUOTES),
-    "description" => "This is a new blog post.",
+    "description" => "This blog post and the first paragraph is the short snippet.",
     "date" => time(),
-    "body" => "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quidem nesciunt voluptas tempore vero, porro reprehenderit cum provident eum sapiente voluptate veritatis, iure libero, fugiat iste soluta repellendus aliquid impedit alias."
+    "body" => "This is the full blog post content. Here's some more example text. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quidem nesciunt voluptas tempore vero, porro reprehenderit cum provident eum sapiente voluptate veritatis, iure libero, fugiat iste soluta repellendus aliquid impedit alias."
 ];
 
 $SimpleBlog->set("posts", $posts);
