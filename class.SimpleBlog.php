@@ -220,7 +220,7 @@ HTML;
                         </div>
                         <br /><br />
                         <div class="text-left">
-                            <a href="./" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-chevron-left small"></span> Back to all posts</a>
+                            <a href="../$this->slug" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-chevron-left small"></span> Back to all posts</a>
                         </div>
 HTML;
                     } else {
