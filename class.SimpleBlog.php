@@ -11,7 +11,7 @@ class SimpleBlog
 
     private $db;
 
-    private $dbPath = __DIR__ . "/simpleblog.json";
+    private $dbPath;
 
     private $dateFormat = "d F Y";
 
@@ -21,8 +21,9 @@ class SimpleBlog
 
     public function __construct($load)
     {
+        global $Wcms;
+        $this->dbPath = $Wcms->dataPath . "/simpleblog.json";
         if ($load) {
-            global $Wcms;
             $this->Wcms =& $Wcms;
         }
     }
@@ -59,9 +60,17 @@ class SimpleBlog
 
         $pathTest = explode('-', $this->Wcms->currentPage);
         if (array_shift($pathTest) === $this->slug) {
+            $headerResponse = 'HTTP/1.0 200 OK';
+
+            if ($pathTest) {
+                $path = implode('-', $pathTest);
+                if (!property_exists($this->db->posts, $path)) {
+                    $headerResponse = 'HTTP/1.0 404 Not Found';
+                }
+            }
             global $Wcms;
             $Wcms->headerResponseDefault = false;
-            $Wcms->headerResponse = 'HTTP/1.0 200 OK';
+            $Wcms->headerResponse = $headerResponse;
         }
     }
 
@@ -125,7 +134,7 @@ class SimpleBlog
             // Remove page doesn't exist notice on blog pages
             if (isset($_SESSION['alert']['info'])) {
                 foreach ($_SESSION['alert']['info'] as $i => $v) {
-                    if ($v['message'] === '<b>This page (' . $this->Wcms->currentPage . ') doesn\'t exist.</b> Click inside the content below to create it.') {
+                    if (strpos($v['message'], 'This page ') !== false && strpos($v['message'], ' doesn\'t exist.</b> Click inside the content below to create it.') !== false) {
                         unset($_SESSION['alert']['info'][$i]);
                     }
                 }
@@ -175,7 +184,7 @@ HTML;
 HTML;
 
                     // Little inline reversing
-                    foreach (array_reverse((array)$this->db->posts) as $slug => $post) {
+                    foreach (array_reverse((array)$this->db->posts, true) as $slug => $post) {
                         $date = date($this->dateFormat, $post->date);
 
                         $args[0] .= <<<HTML
@@ -226,8 +235,6 @@ HTML;
                     } else {
                         // Display 404 (unless it's admin, then it's never a 404)
                         $args[0] = $this->Wcms->get('pages', '404')->content;
-
-                        header("HTTP/1.0 404 Not Found");
                     }
                     break;
             }
