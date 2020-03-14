@@ -1,5 +1,5 @@
 function Blog() {
-    this.active = window.location.pathname.split("/")[1] == "blog";
+    this.active = window.location.pathname.indexOf("blog") > -1;
 
     this.init = function() {
         /* Check for summernote */
@@ -10,7 +10,7 @@ function Blog() {
               var value = $(element.currentTarget).summernote('code'),
                   key = element.currentTarget.classList[0];
 
-              blog.store(key, value);
+              blog.store(key, value, false);
             });
         } else {
             /* Attach to admin elements */
@@ -26,7 +26,7 @@ function Blog() {
                     var textarea = document.createElement("textarea");
                     textarea.innerHTML = html;
                     textarea.className = elem.classList[0];
-                    textarea.onblur = () => { blog.save(textarea); };
+                    textarea.onblur = () => { blog.save(textarea, true); };
 
                     // Reset elem
                     elem.innerHTML = "";
@@ -46,18 +46,18 @@ function Blog() {
         }
     }
 
-    this.save = function(elem) {
+    this.save = function(elem, reload) {
         // Let's save this element.
         $("#save").show();
 
         var key = elem.classList[0],
             value = elem.value;
 
-        blog.store(key, value);
+        blog.store(key, value, reload);
 
     };
 
-    this.store = function(key, value) {
+    this.store = function(key, value, reload) {
         var page = decodeURI(window.location.pathname.split("/").pop());
 
         $.post( rootURL + "/plugins/simple-blog/save.php", { key: key, value: value, page: page, token: token })
@@ -66,7 +66,7 @@ function Blog() {
                 $("#save").hide();
 
                 // I really don't like this, but it's default behaviour on cms pages so will honor this.
-                history.go(0);
+                if(reload) history.go(0);
             });
     }
 
