@@ -205,20 +205,16 @@ HTML;
                             $args[0] = <<<HTML
                             <div class="post">
                                 <h6>Title:</h6>
-                                <div class="title editable" onblur="blog.save(this)" contenteditable><h1 style='margin-top:0;'>{$post->title}</h1></div>
+                                <h1 style='margin-top:0;' class="title editable blog-editable">{$post->title}</h1>
                                 <p class="meta">{$date} &nbsp; &bull; &nbsp; <a href='{$this->Wcms->url('plugins/simple-blog/delete.php')}?page={$this->path}&token={$this->Wcms->getToken()}' onclick='return confirm(\"Are you sure you want to delete this post?\")'>Delete</a></p>
                                 <hr>
                                 <h6>Description:</h6>
-                                <div class='description editable' onblur="blog.save(this)" contenteditable>{$post->description}</div>
+                                <div class='description editable blog-editable'>{$post->description}</div>
                                 <hr>
                                 <h6>Content:</h6>
-                                <div class="body editable" onblur="blog.save(this)" contenteditable>
+                                <div class="body editable blog-editable">
                                     {$post->body}
                                 </div>
-                            </div>
-                            <br /><br />
-                            <div class="text-left">
-                                <a href="./" class="btn btn-default"><span class="glyphicon glyphicon-chevron-left small"></span> Back to all posts</a>
                             </div>
 HTML;
                         } else {
@@ -230,12 +226,15 @@ HTML;
                                     {$post->body}
                                 </div>
                             </div>
-                            <br /><br />
-                            <div class="text-left">
-                                <a href="./" class="btn btn-default"><span class="glyphicon glyphicon-chevron-left small"></span> Back to all posts</a>
-                            </div>
 HTML;
                         }
+
+                        $args[0] .= <<<HTML
+                        <br /><br />
+                        <div class="text-left">
+                            <a href="./" class="btn btn-default"><span class="glyphicon glyphicon-chevron-left small"></span> Back to all posts</a>
+                        </div>
+HTML;
                     } else {
                         // Display 404 (unless it's admin, then it's never a 404)
                         $args[0] = $this->Wcms->get('pages', '404')->content;

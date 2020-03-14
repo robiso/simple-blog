@@ -56,3 +56,22 @@
 .post .editable {
     border: 2px dashed #ccc;
 }
+
+.post .editable textarea {
+    outline: 0;
+    border: none;
+    width: 100%;
+    resize: none;
+    color: inherit;
+    font-size: inherit;
+    font-family: monospace;
+    background-color:
+    transparent;
+    overflow: hidden;
+    overflow-x: hidden;
+    box-sizing: content-box;
+
+    overflow-x: hidden;
+    overflow-wrap: break-word;
+    height: 1px;
+}
