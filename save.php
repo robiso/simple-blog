@@ -23,6 +23,8 @@ $value = $_POST["value"];
 
 if(empty($key) || empty($page) || empty($value)) die("Please specify all the fields");
 
+if($key == "title") $value = strip_tags($value);
+
 $SimpleBlog->set("posts", $page, $key, $value);
 
 ?>
