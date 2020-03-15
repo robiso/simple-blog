@@ -7,42 +7,11 @@ function Blog() {
         if(scripts.filter(e => e.src.indexOf("summernote") >= 0).length > 0 && blog.active) {
             // summernote.focus
             $('.editable').on('summernote.blur', function(element) {
+              $("#save").show();
               var value = $(element.currentTarget).summernote('code'),
-                  key = element.currentTarget.classList[0];
+                  key = element.currentTarget.id;
 
               blog.store(key, value, false);
-            });
-        } else {
-            /* Attach to admin elements */
-            [].forEach.call(document.getElementsByClassName("blog-editable"), elem => {
-                elem.onclick = () => {
-                    // Make sure 2nd click does nothing
-                    elem.onclick = () => {};
-
-                    // Capture html
-                    var html = elem.innerHTML;
-
-                    // Create textarea
-                    var textarea = document.createElement("textarea");
-                    textarea.innerHTML = html;
-                    textarea.id = elem.id;
-                    elem.id = "";
-                    textarea.onblur = () => { blog.save(textarea, true); };
-
-                    // Reset elem
-                    elem.innerHTML = "";
-
-                    // Add textarea
-                    elem.appendChild(textarea);
-
-                    // (Bad) auto resize foo
-                    textarea.onkeydown = () => {
-                        textarea.style.height = 'auto';
-                        textarea.style.height = (textarea.scrollHeight + 100) + 'px';
-                    };
-                    textarea.style.height = 'auto';
-                    textarea.style.height = (textarea.scrollHeight + 100) + 'px';
-                };
             });
         }
     }
@@ -99,5 +68,5 @@ window.addEventListener('load', blog.init);
 
 window.fieldSave = (a, b, c) => {
     $("#save").show();
-    blog.store(a, b, false);
+    blog.store(a, b, true);
 };
