@@ -138,6 +138,16 @@ class SimpleBlog {
     }
 
     public function jsListener(array $args): array {
+        if (! $this->active) {
+            return $args;
+        }
+
+        if (! $this->Wcms->loggedIn) {
+            $args[0] .= "<script src='{$this->Wcms->url('plugins/simple-blog/js/visitor.js')}'></script>";
+
+            return $args;
+        }
+
         $args[0] .= "<script src='{$this->Wcms->url('plugins/simple-blog/js/blog.js')}'></script>";
 
         return $args;
@@ -205,14 +215,14 @@ HTML;
                             $args[0] = <<<HTML
                             <div class="post">
                                 <h6>Title:</h6>
-                                <h1 style='margin-top:0;' class="title editable blog-editable">{$post->title}</h1>
+                                <div data-target="blog" style='margin-top:0;' id="title" class="title editText editable">{$post->title}</div>
                                 <p class="meta">{$date} &nbsp; &bull; &nbsp; <a href='{$this->Wcms->url('plugins/simple-blog/delete.php')}?page={$this->path}&token={$this->Wcms->getToken()}' onclick='return confirm(\"Are you sure you want to delete this post?\")'>Delete</a></p>
                                 <hr>
                                 <h6>Description:</h6>
-                                <div class='description editable blog-editable'>{$post->description}</div>
+                                <div data-target="blog" id="description" class='meta editText editable'>{$post->description}</div>
                                 <hr>
                                 <h6>Content:</h6>
-                                <div class="body editable blog-editable">
+                                <div data-target="blog" id="body" class="body editText editable">
                                     {$post->body}
                                 </div>
                             </div>

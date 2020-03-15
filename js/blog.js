@@ -25,7 +25,8 @@ function Blog() {
                     // Create textarea
                     var textarea = document.createElement("textarea");
                     textarea.innerHTML = html;
-                    textarea.className = elem.classList[0];
+                    textarea.id = elem.id;
+                    elem.id = "";
                     textarea.onblur = () => { blog.save(textarea, true); };
 
                     // Reset elem
@@ -50,7 +51,7 @@ function Blog() {
         // Let's save this element.
         $("#save").show();
 
-        var key = elem.classList[0],
+        var key = elem.id,
             value = elem.value;
 
         blog.store(key, value, reload);
@@ -93,3 +94,10 @@ function Blog() {
 
 window.blog = new Blog();
 window.addEventListener('load', blog.init);
+
+// Overwrite default save method for editors other than summernote:
+
+window.fieldSave = (a, b, c) => {
+    $("#save").show();
+    blog.store(a, b, false);
+};
