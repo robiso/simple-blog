@@ -10,10 +10,11 @@ $Wcms->init();
 $SimpleBlog = new SimpleBlog(false);
 $SimpleBlog->init();
 
+$requestToken = $_POST['token'] ?? $_GET['token'] ?? null;
 if(!$Wcms->loggedIn
-    || $_SESSION['token'] !== $_GET['token']
-    || !$Wcms->hashVerify($_GET['token']))
-    die("Access denied.");
+    || $_SESSION['token'] !== $requestToken
+    || !$Wcms->hashVerify($requestToken))
+    die("Please login first.");
 
 if(!isset($_POST["page"])) die("Please specify key and value");
 
