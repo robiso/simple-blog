@@ -11,9 +11,9 @@ $SimpleBlog = new SimpleBlog(false);
 $SimpleBlog->init();
 
 if(!$Wcms->loggedIn
-    && $_SESSION['token'] === $_GET['token']
-    && $Wcms->hashVerify($_GET['token']))
-    die("Please login first.");
+    || $_SESSION['token'] !== $_GET['token']
+    || !$Wcms->hashVerify($_GET['token']))
+    die("Access denied.");
 
 if(!isset($_GET["page"])) die("Please specify key and value");
 
