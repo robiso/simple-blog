@@ -11,8 +11,8 @@ $SimpleBlog = new SimpleBlog(false);
 $SimpleBlog->init();
 
 if(!$Wcms->loggedIn
-    || $_SESSION['token'] !== $_GET['token']
-    || !$Wcms->hashVerify($_GET['token']))
+    || $_SESSION['token'] !== $_POST['token']
+    || !$Wcms->hashVerify($_POST['token']))
     die("Access denied.");
 
 if(!isset($_POST["key"], $_POST["value"], $_POST["page"])) die("Please specify key and value");
