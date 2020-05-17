@@ -213,7 +213,7 @@ HTML;
                         if ($this->Wcms->loggedIn) {
                             $args[0] = <<<HTML
                             <div class="post">
-                                <div data-target="blog" style='margin-top:0;' id="title" class="title editText editable"><h1>{$post->title}</h1></div>
+                                <div data-target="blog" style='margin-top:0;' id="title" class="title editText editable"><h3>{$post->title}</h3></div>
                                 <p class="meta">{$date} &nbsp; &bull; &nbsp; <a href='{$this->Wcms->url('plugins/simple-blog/delete.php')}?page={$this->path}&token={$this->Wcms->getToken()}' onclick='return confirm(\"Are you sure you want to delete this post?\")'>Delete</a></p>
                                 <hr>
                                 <div data-target="blog" id="description" class='meta editText editable'>{$post->description}</div>
@@ -236,9 +236,10 @@ HTML;
                         }
 
                         $args[0] .= <<<HTML
-                        <br /><br />
+                        
                         <div class="text-left">
-                            <a href="../$this->slug" class="btn btn-light"><span class="glyphicon glyphicon-chevron-left small"></span> Back to all posts</a>
+                            <br /><br /><br />
+                            <a href="../$this->slug" class="btn btn-sm btn-light"><span class="glyphicon glyphicon-chevron-left small"></span> Back to all blog posts</a>
                         </div>
 HTML;
                     } else {
