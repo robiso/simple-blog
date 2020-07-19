@@ -24,7 +24,6 @@
 }
 
  .post.card .meta {
-    color: #6c757d!important;
     /* margin-bottom: .5rem!important; */
     /* margin-top: -.375em; */
     padding: 0 1.25em;
@@ -42,6 +41,10 @@
  .post.card a {
     padding: 0 1.25em 1.25em 1.25em;
     display: block;
+}
+
+.card {
+    background-color: #ffffff24;
 }
 
 @media (max-width: 576px) {
