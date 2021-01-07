@@ -53,7 +53,7 @@ class SimpleBlog {
         $this->Wcms->addListener('css', [$this, 'startListener']);
         $this->Wcms->addListener('js', [$this, 'jsListener']);
 
-        $pathTest = explode('-', $this->Wcms->currentPage);
+		$pathTest = $this->Wcms->currentPageTree;
         if (array_shift($pathTest) === $this->slug) {
             $headerResponse = 'HTTP/1.0 200 OK';
 
@@ -115,8 +115,8 @@ class SimpleBlog {
     public function startListener(array $args): array {
         // This code redides here instead of in init() because currentPage is empty there.
         // This is the first location where currentPage is set
-        $path = explode('-', $this->Wcms->currentPage);
-        if (array_shift($path) == $this->slug) {
+		$path = $this->Wcms->currentPageTree;
+        if (array_shift($path) === $this->slug) {
             $this->active = true;
             $this->path = $path ? implode('-', $path) : [''];
         }
@@ -200,7 +200,6 @@ HTML;
 HTML;
                     }
                     break;
-
                 default:
                     if (isset($this->db->posts->{$this->path})) {
                         // Display post
@@ -254,7 +253,7 @@ HTML;
     }
 
     private function setMetaTags(array $args): array {
-        $subPage = str_replace($this->slug . '-', '', strtolower($this->Wcms->currentPage));
+        $subPage = strtolower($this->Wcms->currentPage);
         if ((($subPage !== $this->slug && isset($this->db->posts->{$subPage})) || $subPage === $this->slug)
             && isset($args[1])
             && ($args[1] === 'title' || $args[1] === 'description' || $args[1] === 'keywords')
