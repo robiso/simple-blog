@@ -235,7 +235,7 @@ HTML;
 						$args[0] .= <<<HTML
                         
                         <div class="text-left">
-                            <br /><br /><br />
+                            <br /><br />
                             <a href="../$this->slug" class="btn btn-sm btn-light"><span class="glyphicon glyphicon-chevron-left small"></span> Back to all blog posts</a>
                         </div>
 HTML;
