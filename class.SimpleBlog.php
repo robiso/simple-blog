@@ -146,12 +146,6 @@ class SimpleBlog {
 		}
 
 		$args[0] .= '<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous"></script>';
-		if (! $this->Wcms->loggedIn) {
-			$args[0] .= "<script src='{$this->Wcms->url('plugins/simple-blog/js/visitor.js')}'></script>";
-
-			return $args;
-		}
-
 		$args[0] .= "<script src='{$this->Wcms->url('plugins/simple-blog/js/blog.js')}'></script>";
 
 		return $args;
