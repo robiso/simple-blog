@@ -16,14 +16,23 @@ if(!$Wcms->loggedIn
     || !$Wcms->hashVerify($requestToken))
     die("Please login first.");
 
-if(!isset($_POST["key"], $_POST["value"], $_POST["page"])) die("Please specify key and value");
+if(!isset($_POST["page"])) die("Please specify key and value");
 
-$key = $Wcms->slugify($_POST["key"]);
-$page = $Wcms->slugify($_POST["page"]);
-$value = $_POST["value"];
+$slug = $Wcms->slugify($_POST["page"]);
 
-if(empty($key) || empty($page) || empty($value)) die("Please specify all the fields");
+if(empty($slug)) die("Please specify all the fields");
 
-$SimpleBlog->set("posts", $page, $key, $value);
+$posts = (array)$SimpleBlog->get("posts");
+
+$posts[$slug] = [
+    "title" => htmlspecialchars($_POST['page'], ENT_QUOTES),
+    "description" => "This blog post and the first paragraph is the short snippet.",
+    "date" => time(),
+    "body" => "This is the full blog post content. Here's some more example text. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quidem nesciunt voluptas tempore vero, porro reprehenderit cum provident eum sapiente voluptate veritatis, iure libero, fugiat iste soluta repellendus aliquid impedit alias."
+];
+
+$SimpleBlog->set("posts", $posts);
+
+echo $slug;
 
 ?>
