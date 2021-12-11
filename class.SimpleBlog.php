@@ -3,114 +3,116 @@
 global $Wcms;
 
 class SimpleBlog {
-    public $slug = 'blog';
+	public $slug = 'blog';
 
-    private $Wcms;
+	private $Wcms;
 
-    private $db;
+	private $db;
 
-    private $dbPath;
+	private $dbPath;
 
-    private $dateFormat = 'd F Y';
+	private $dateFormat = 'd F Y';
 
-    private $path = [''];
+	private $path = [''];
 
-    private $active = false;
+	private $active = false;
 
-    public function __construct($load) {
-        global $Wcms;
-        $this->dbPath = $Wcms->dataPath . '/simpleblog.json';
-        if ($load) {
-            $this->Wcms =&$Wcms;
-        }
-    }
+	public function __construct($load) {
+		global $Wcms;
+		$this->dbPath = $Wcms->dataPath . '/simpleblog.json';
+		if ($load) {
+			$this->Wcms =&$Wcms;
+		}
+	}
 
-    public function init(): void {
-        $this->db = $this->getDb();
-    }
+	public function init(): void {
+		$this->db = $this->getDb();
+	}
 
-    private function getDb(): stdClass {
-        if (! file_exists($this->dbPath)) {
-            file_put_contents($this->dbPath, json_encode([
-                'title' => 'Blog',
-                'posts' => [
-                    'hello-world' => [
-                        'title' => 'Hello, World!',
-                        'description' => 'This blog post and the first paragraph is the short snippet.',
-                        'date' => time(),
-                        'body' => "This is the full blog post content. Here's some more example text. Consectetur adipisicing elit. Quidem nesciunt voluptas tempore vero, porro reprehenderit cum provident eum sapiente voluptate veritatis, iure libero, fugiat iste soluta repellendus aliquid impedit alias.",
-                    ],
-                ],
-            ], JSON_FORCE_OBJECT | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
-        }
+	private function getDb(): stdClass {
+		if (! file_exists($this->dbPath)) {
+			file_put_contents($this->dbPath, json_encode([
+				'title' => 'Blog',
+				'posts' => [
+					'hello-world' => [
+						'title' => 'Hello, World!',
+						'description' => 'This blog post and the first paragraph is the short snippet.',
+						'date' => time(),
+						'body' => "This is the full blog post content. Here's some more example text. Consectetur adipisicing elit. Quidem nesciunt voluptas tempore vero, porro reprehenderit cum provident eum sapiente voluptate veritatis, iure libero, fugiat iste soluta repellendus aliquid impedit alias.",
+					],
+				],
+			], JSON_FORCE_OBJECT | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
+		}
 
-        return json_decode(file_get_contents($this->dbPath));
-    }
+		return json_decode(file_get_contents($this->dbPath));
+	}
 
-    public function attach(): void {
-        $this->Wcms->addListener('menu', [$this, 'menuListener']);
-        $this->Wcms->addListener('page', [$this, 'pageListener']);
-        $this->Wcms->addListener('css', [$this, 'startListener']);
-        $this->Wcms->addListener('js', [$this, 'jsListener']);
+	public function attach(): void {
+		$this->Wcms->addListener('menu', [$this, 'menuListener']);
+		$this->Wcms->addListener('page', [$this, 'pageListener']);
+		$this->Wcms->addListener('css', [$this, 'startListener']);
+		$this->Wcms->addListener('js', [$this, 'jsListener']);
 
         $pathTest = explode('-', $this->Wcms->currentPage);
         if (array_shift($pathTest) === $this->slug) {
             $headerResponse = 'HTTP/1.0 200 OK';
 
-            if ($pathTest) {
-                $path = implode('-', $pathTest);
-                if (! property_exists($this->db->posts, $path)) {
-                    $headerResponse = 'HTTP/1.0 404 Not Found';
-                }
-            }
-            global $Wcms;
-            $Wcms->headerResponseDefault = false;
-            $Wcms->headerResponse = $headerResponse;
-        }
-    }
+			if ($pathTest) {
+				$path = implode('-', $pathTest);
+				if (! property_exists($this->db->posts, $path)) {
+					$headerResponse = 'HTTP/1.0 404 Not Found';
+					$currentPageExists = false;
+				}
+			}
+			global $Wcms;
+			$Wcms->headerResponseDefault = false;
+			$Wcms->headerResponse = $headerResponse;
+			$Wcms->currentPageExists = $currentPageExists;
+		}
+	}
 
-    private function save(): void {
-        file_put_contents($this->dbPath,
-            json_encode($this->db, JSON_FORCE_OBJECT | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
-    }
+	private function save(): void {
+		file_put_contents($this->dbPath,
+			json_encode($this->db, JSON_FORCE_OBJECT | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
+	}
 
-    public function set(): void {
-        $numArgs = func_num_args();
-        $args = func_get_args();
+	public function set(): void {
+		$numArgs = func_num_args();
+		$args = func_get_args();
 
-        switch ($numArgs) {
-            case 2:
-                $this->db->{$args[0]} = $args[1];
-                break;
-            case 3:
-                $this->db->{$args[0]}->{$args[1]} = $args[2];
-                break;
-            case 4:
-                $this->db->{$args[0]}->{$args[1]}->{$args[2]} = $args[3];
-                break;
-            case 5:
-                $this->db->{$args[0]}->{$args[1]}->{$args[2]}->{$args[3]} = $args[4];
-                break;
-        }
-        $this->save();
-    }
+		switch ($numArgs) {
+			case 2:
+				$this->db->{$args[0]} = $args[1];
+				break;
+			case 3:
+				$this->db->{$args[0]}->{$args[1]} = $args[2];
+				break;
+			case 4:
+				$this->db->{$args[0]}->{$args[1]}->{$args[2]} = $args[3];
+				break;
+			case 5:
+				$this->db->{$args[0]}->{$args[1]}->{$args[2]}->{$args[3]} = $args[4];
+				break;
+		}
+		$this->save();
+	}
 
-    public function get() {
-        $numArgs = func_num_args();
-        $args = func_get_args();
-        switch ($numArgs) {
-            case 1:
-                return $this->db->{$args[0]};
-            case 2:
-                return $this->db->{$args[0]}->{$args[1]};
-            case 3:
-                return $this->db->{$args[0]}->{$args[1]}->{$args[2]};
-            case 4:
-                return $this->db->{$args[0]}->{$args[1]}->{$args[2]}->{$args[3]};
-            case 5:
-                return $this->db->{$args[0]}->{$args[1]}->{$args[2]}->{$args[3]}->{$args[4]};
-        }
-    }
+	public function get() {
+		$numArgs = func_num_args();
+		$args = func_get_args();
+		switch ($numArgs) {
+			case 1:
+				return $this->db->{$args[0]};
+			case 2:
+				return $this->db->{$args[0]}->{$args[1]};
+			case 3:
+				return $this->db->{$args[0]}->{$args[1]}->{$args[2]};
+			case 4:
+				return $this->db->{$args[0]}->{$args[1]}->{$args[2]}->{$args[3]};
+			case 5:
+				return $this->db->{$args[0]}->{$args[1]}->{$args[2]}->{$args[3]}->{$args[4]};
+		}
+	}
 
     public function startListener(array $args): array {
         // This code redides here instead of in init() because currentPage is empty there.
@@ -137,34 +139,29 @@ class SimpleBlog {
         return $args;
     }
 
-    public function jsListener(array $args): array {
-        if (! $this->active) {
-            return $args;
-        }
+	public function jsListener(array $args): array {
+		if (! $this->active) {
+			return $args;
+		}
 
-        if (! $this->Wcms->loggedIn) {
-            $args[0] .= "<script src='{$this->Wcms->url('plugins/simple-blog/js/visitor.js')}'></script>";
+		$args[0] .= '<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous"></script>';
+		$args[0] .= "<script src='{$this->Wcms->url('plugins/simple-blog/js/blog.js')}'></script>";
 
-            return $args;
-        }
+		return $args;
+	}
 
-        $args[0] .= "<script src='{$this->Wcms->url('plugins/simple-blog/js/blog.js')}'></script>";
+	public function menuListener(array $args): array {
+		// Add blog menu item
+		$extra = $this->active ? 'active ' : '';
 
-        return $args;
-    }
-
-    public function menuListener(array $args): array {
-        // Add blog menu item
-        $extra = $this->active ? 'active ' : '';
-
-        $args[0] .= <<<HTML
+		$args[0] .= <<<HTML
         <li class="{$extra}nav-item">
             <a class="nav-link" href="{$this->Wcms->url($this->slug)}">Blog</a>
         </li>
 HTML;
 
-        return $args;
-    }
+		return $args;
+	}
 
     public function pageListener(array $args): array {
         $args = $this->setMetaTags($args);
@@ -218,9 +215,7 @@ HTML;
                                 <hr>
                                 <div data-target="blog" id="description" class='meta editText editable'>{$post->description}</div>
                                 <hr>
-                                <div data-target="blog" id="body" class="body editText editable">
-                                    {$post->body}
-                                </div>
+                                <div data-target="blog" id="body" class="body editText editable">{$post->body}</div>
                             </div>
 HTML;
                         } else {
