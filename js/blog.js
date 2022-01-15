@@ -28,7 +28,8 @@ function Blog() {
 
     this.store = function (key, value, reload) {
         var page = decodeURI(window.location.pathname.split("/").pop());
-
+        
+        $.ajaxSetup({async: false});
         $.post(rootURL + "/plugins/simple-blog/save.php", {key: key, value: value, page: page, token: token})
             .done(function (data) {
                 if (data) alert(data);
@@ -47,7 +48,7 @@ function Blog() {
 
             // Let's save this element.
             $("#save").show();
-
+            $.ajaxSetup({async: false});
             $.post(rootURL + "/plugins/simple-blog/new.php", {page: name, token: token})
                 .done(function (data) {
                     window.location.href = data;
