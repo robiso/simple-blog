@@ -215,9 +215,7 @@ HTML;
                                 <hr>
                                 <div data-target="blog" id="description" class='meta editText editable'>{$post->description}</div>
                                 <hr>
-                                <div data-target="blog" id="body" class="body editText editable">
-                                    {$post->body}
-                                </div>
+                                <div data-target="blog" id="body" class="body editText editable">{$post->body}</div>
                             </div>
 HTML;
 						} else {
@@ -225,9 +223,7 @@ HTML;
                             <div class="post">
                                 <h1 class="title">{$post->title}</h1>
                                 <p class="meta">{$date}</p>
-                                <div class="body">
-                                    {$post->body}
-                                </div>
+                                <div class="body">{$post->body}</div>
                             </div>
 HTML;
 						}
