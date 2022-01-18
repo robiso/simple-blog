@@ -210,7 +210,7 @@ HTML;
 						if ($this->Wcms->loggedIn) {
 							$args[0] = <<<HTML
                             <div class="post">
-                                <div data-target="blog" style='margin-top:0;' id="title" class="title editText editable"><h3>{$post->title}</h3></div>
+                                <div data-target="blog" style='margin-top:0;' id="title" class="title editText editable">{$post->title}</div>
                                 <p class="meta">{$date} &nbsp; &bull; &nbsp; <a href='{$this->Wcms->url('plugins/simple-blog/delete.php')}?page={$this->path}&token={$this->Wcms->getToken()}' onclick='return confirm(\"Are you sure you want to delete this post?\")'>Delete</a></p>
                                 <hr>
                                 <div data-target="blog" id="description" class='meta editText editable'>{$post->description}</div>
@@ -255,9 +255,12 @@ HTML;
 			$args[0] = isset($this->db->posts->{$subPage})
 				? $this->db->posts->{$subPage}->{$args[1] === 'keywords' ? 'description' : $args[1]}
 				: $this->db->title;
-
-			if ($args[1] === 'keywords') {
-				$args[0] = str_replace(' ', ', ', $args[0]);
+			if ($args[1] === 'title') {
+				$args[0] = str_replace(' ', ', ', strip_tags($args[0]));
+			} elseif ($args[1] === 'keywords') {
+				$args[0] = str_replace(' ', ', ', strip_tags($args[0]));
+			} elseif ($args[1] === 'description') {
+				$args[0] = str_replace(' ', ', ', strip_tags($args[0]));
 			}
 		}
 
