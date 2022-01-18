@@ -11,6 +11,7 @@
     /* padding: 1.25em; */
     box-shadow: -1px -1px 6px 0 rgba(0,0,0,.1);
     border-radius: .25rem;
+    vertical-align: top;
 }
 
  .post.card h3 {
