@@ -255,12 +255,14 @@ HTML;
 			$args[0] = isset($this->db->posts->{$subPage})
 				? $this->db->posts->{$subPage}->{$args[1] === 'keywords' ? 'description' : $args[1]}
 				: $this->db->title;
+			$length = strrpos(strip_tags($args[0]), ' ');
+			$content = strip_tags($args[0]);
 			if ($args[1] === 'title') {
-				$args[0] = str_replace(' ', ', ', strip_tags($args[0]));
+				$args[0] = $length > 60 ? substr($content, 0, 57) . "..." : $content;
 			} elseif ($args[1] === 'keywords') {
-				$args[0] = str_replace(' ', ', ', strip_tags($args[0]));
+				$args[0] = str_replace(' ', ', ', $content);
 			} elseif ($args[1] === 'description') {
-				$args[0] = str_replace(' ', ', ', strip_tags($args[0]));
+				$args[0] = $content;
 			}
 		}
 
