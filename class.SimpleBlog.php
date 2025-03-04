@@ -37,6 +37,7 @@ class SimpleBlog {
 					'hello-world' => [
 						'title' => 'Hello, World!',
 						'description' => 'This blog post and the first paragraph is the short snippet.',
+						'keywords' => '#your #post #keywords',
 						'date' => time(),
 						'body' => "This is the full blog post content. Here's some more example text. Consectetur adipisicing elit. Quidem nesciunt voluptas tempore vero, porro reprehenderit cum provident eum sapiente voluptate veritatis, iure libero, fugiat iste soluta repellendus aliquid impedit alias.",
 					],
@@ -210,7 +211,8 @@ HTML;
 						if ($this->Wcms->loggedIn) {
 							$args[0] = <<<HTML
                             <div class="post">
-                                <div data-target="blog" style='margin-top:0;' id="title" class="title editText editable">{$post->title}</div>
+                                <h1 data-target="blog" style='margin-top:0;' id="title" class="title editText editable">{$post->title}</h1>
+                                <div data-target="blog" style='margin-top:0;' id="keywords" class="title editText editable">{$post->keywords}</div>
                                 <p class="meta">{$date} &nbsp; &bull; &nbsp; <a href='{$this->Wcms->url('plugins/simple-blog/delete.php')}?page={$this->path}&token={$this->Wcms->getToken()}' onclick='return confirm(\"Are you sure you want to delete this post?\")'>Delete</a></p>
                                 <hr>
                                 <div data-target="blog" id="description" class='meta editText editable'>{$post->description}</div>
@@ -222,7 +224,8 @@ HTML;
 							$args[0] = <<<HTML
                             <div class="post">
                                 <h1 class="title">{$post->title}</h1>
-                                <p class="meta">{$date}</p>
+                                <p class="meta">{$date}<br/>
+                                <small>{$post->keywords}</small></p>
                                 <div class="body">{$post->body}</div>
                             </div>
 HTML;
