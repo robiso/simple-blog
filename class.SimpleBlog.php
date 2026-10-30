@@ -173,6 +173,11 @@ class SimpleBlog {
 		}
 
 		$args[0] .= "<link rel='stylesheet' href='{$this->Wcms->url('plugins/simple-blog/css/blog.css')}'>";
+		if ($this->active) { // feed autodiscovery, nothing visible on the page
+			$title = html_entity_decode(strip_tags((string) $this->Wcms->get('config', 'siteTitle')), ENT_QUOTES, 'UTF-8') . ' blog';
+			$args[0] .= '<link rel="alternate" type="application/rss+xml" title="' . htmlspecialchars($title, ENT_QUOTES, 'UTF-8')
+				. '" href="' . htmlspecialchars($this->Wcms->url($this->slug . '/feed.xml'), ENT_QUOTES, 'UTF-8') . '">';
+		}
 
 		return $args;
 	}
@@ -213,8 +218,7 @@ HTML;
 					if ($this->Wcms->loggedIn) {
 						$args[0] = "<div class='text-right'><a href='#' class='btn btn-light' onclick='blog.new(); return false;'><span class='glyphicon glyphicon-plus-sign'></span> Create new post</a></div>";
 					}
-					// Add link for RSS feed
-					$args[0] .= "<div class='text-right'><a href='{$this->Wcms->url($this->slug . '/feed.xml')}'>Subscribe to RSS feed</a></div>";
+
 					$args[0] .= <<<HTML
 HTML;
 
