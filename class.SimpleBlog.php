@@ -83,8 +83,9 @@ class SimpleBlog {
 	}
 
 	private function feed(): string {
-		$xml = function ($value) {
-			return htmlspecialchars((string) $value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+		$xml = function ($value) { // drops characters XML 1.0 does not allow, such as \x0B
+			$value = htmlspecialchars((string) $value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+			return preg_replace('/[^\x{9}\x{A}\x{D}\x{20}-\x{D7FF}\x{E000}-\x{FFFD}\x{10000}-\x{10FFFF}]/u', '', $value);
 		};
 		$text = function ($html) use ($xml) { // titles are plain text in RSS
 			return $xml(html_entity_decode(strip_tags((string) $html), ENT_QUOTES, 'UTF-8'));
